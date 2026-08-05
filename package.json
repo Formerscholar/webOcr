@@ -1,0 +1,74 @@
+{
+  "name": "webocr",
+  "version": "0.1.0",
+  "description": "Browser-side PP-OCRv6 tiny OCR powered by onnxruntime-web. Bundles models, charset and wasm. Framework-agnostic.",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./vite": {
+      "types": "./dist/vite.d.ts",
+      "import": "./dist/vite.js"
+    },
+    "./assets/*": "./dist/assets/*",
+    "./ort/*": "./dist/ort/*"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Formerscholar/webOcr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Formerscholar/webOcr/issues"
+  },
+  "homepage": "https://github.com/Formerscholar/webOcr#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --config vite.lib.config.ts && tsc -p tsconfig.lib.json && node scripts/pack-assets.mjs",
+    "build:demo": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "pack-assets": "node scripts/pack-assets.mjs",
+    "prepublishOnly": "npm run build",
+    "prepare": "node scripts/ensure-dist.mjs"
+  },
+  "peerDependencies": {
+    "vite": ">=5"
+  },
+  "peerDependenciesMeta": {
+    "vite": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "onnxruntime-web": "^1.22.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "keywords": [
+    "ocr",
+    "paddleocr",
+    "pp-ocrv6",
+    "onnxruntime-web",
+    "browser",
+    "vue",
+    "react"
+  ],
+  "license": "Apache-2.0"
+}

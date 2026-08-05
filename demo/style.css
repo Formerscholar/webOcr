@@ -1,0 +1,257 @@
+:root {
+  --bg0: #0f1419;
+  --bg1: #1a2332;
+  --bg2: #243044;
+  --line: #334155;
+  --text: #e8eef7;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --accent2: #34d399;
+  --warn: #fbbf24;
+  --danger: #f87171;
+  --font: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "Cascadia Code", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #1e3a5f 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #134e4a 0%, transparent 45%),
+    var(--bg0);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px 20px 40px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+}
+
+.header p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 18px;
+  margin-top: 22px;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.panel {
+  background: color-mix(in srgb, var(--bg1) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.dropzone {
+  position: relative;
+  min-height: 420px;
+  border: 1.5px dashed color-mix(in srgb, var(--accent) 55%, var(--line));
+  border-radius: 12px;
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dropzone:hover,
+.dropzone.dragover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--bg2) 80%, #0ea5e9);
+}
+
+.dropzone .hint {
+  text-align: center;
+  color: var(--muted);
+  pointer-events: none;
+  padding: 20px;
+}
+
+.dropzone .hint strong {
+  display: block;
+  color: var(--text);
+  margin-bottom: 6px;
+  font-size: 1.05rem;
+}
+
+#preview {
+  max-width: 100%;
+  max-height: 560px;
+  display: none;
+}
+
+.dropzone.has-image #preview {
+  display: block;
+}
+
+.dropzone.has-image .hint {
+  display: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+button,
+.file-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 9px 14px;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+button.primary {
+  background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+  border-color: transparent;
+  color: #042f2e;
+  font-weight: 650;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.file-btn input {
+  display: none;
+}
+
+.status {
+  margin-top: 14px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.bar {
+  height: 8px;
+  border-radius: 999px;
+  background: #0b1220;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.bar > i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.2s ease;
+}
+
+.meta {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.results {
+  margin-top: 8px;
+  max-height: 560px;
+  overflow: auto;
+}
+
+.results h2 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.line {
+  display: grid;
+  grid-template-columns: 36px 58px 1fr;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  font-size: 0.92rem;
+  align-items: start;
+}
+
+.line .idx {
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.line .conf {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.line .conf.high {
+  color: var(--accent2);
+}
+
+.line .conf.mid {
+  color: var(--warn);
+}
+
+.line .conf.low {
+  color: var(--danger);
+}
+
+.line .text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.9rem;
+  padding: 20px 4px;
+}
+
+.fulltext {
+  margin-top: 12px;
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  background: #0b1220;
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px;
+  font-family: var(--font);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}

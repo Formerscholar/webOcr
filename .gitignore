@@ -1,0 +1,15 @@
+node_modules/
+.firecrawl/
+*.log
+.DS_Store
+.npmrc
+agent-tools/
+*.tgz
+
+# 本地 demo 构建缓存；库产物 dist/ 会提交以便 GitHub 安装即用
+demo-dist/
+*.js.map
+
+# public 下模型与 assets/dist 重复，只保留示例图
+public/models/
+public/ppocr_keys_v6_tiny.json
