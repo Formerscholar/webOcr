@@ -1,92 +1,67 @@
-# 纯前端 OCR 也能 npm 一键用：webocr（PP-OCRv6 tiny）发布了
+# 纯前端 OCR：webocr（PP-OCRv6 tiny）
 
 > 包地址：[https://www.npmjs.com/package/webocr](https://www.npmjs.com/package/webocr)  
-> 安装：`npm i webocr`  
 > 仓库：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
 
-给内部系统加「上传截图 → 自动识字」，以前多半是后端起 PaddleOCR + Flask。部署麻烦，还要扛并发。
-
-这次把百度 **PP-OCRv6 tiny** 检测/识别模型，加上 `onnxruntime-web`，打成一个前端 npm 包：**模型、字典、wasm 都在包里**，Vue / React / 内网纯 JS / 浏览器扩展都能用。
+给内部系统加「上传截图 → 自动识字」，以前多半是后端起 PaddleOCR。这次把 **PP-OCRv6 tiny** + `onnxruntime-web` 打成前端资源包：**模型、字典、wasm 都在包里**，用 **纯 JS** 就能调（页面或浏览器扩展），不绑 Vue / React。
 
 ---
 
 ## 它解决什么问题
 
 - 不想单独养 Python OCR 服务
-- 图片不想上传服务器（浏览器本地推理）
-- 希望业务项目 `npm i` 就能接，少折腾资源路径
+- 图片留在浏览器本地推理
+- 内网可离线：外网构建，内网只发静态目录或扩展包
 
-技术栈：
-
-- 检测 + 识别：PP-OCRv6 tiny ONNX（约 6MB）
-- 推理：`onnxruntime-web`（WebGPU / WASM）
-- 资源：随包装好，Vite 插件自动挂载
+技术栈：PP-OCRv6 tiny ONNX（约 6MB）+ `onnxruntime-web`（WebGPU / WASM）
 
 ---
 
-## 安装与接入（Vite）
+## 纯 JS 接入
 
-```bash
-npm i webocr
+拿到 `dist/`（`npm i webocr` 后在 `node_modules/webocr/dist/`，或仓库 `npm run build`）：
+
+```html
+<script type="module">
+  import { createWebOcr } from "/webocr/browser.js";
+
+  const ocr = await createWebOcr({
+    onProgress: (p) => console.log(p.message, p.percent),
+  });
+
+  const result = await ocr.recognize(file);
+  console.log(result.lines.map((l) => l.text).join("\n"));
+</script>
 ```
+
+浏览器扩展（外网开发、内网发布）：
 
 ```js
-// vite.config.js 或 vite.config.ts
-import { defineConfig } from "vite";
-import { webocr } from "webocr/vite";
-
-export default defineConfig({
-  plugins: [webocr()],
-  optimizeDeps: { exclude: ["onnxruntime-web"] },
-});
+const base = chrome.runtime.getURL("vendor/webocr/");
+const { createWebOcr } = await import(
+  chrome.runtime.getURL("vendor/webocr/browser.js")
+);
+const ocr = await createWebOcr({ baseUrl: base });
 ```
 
-```js
-import { createWebOcr } from "webocr";
-
-const ocr = await createWebOcr({
-  onProgress: (p) => console.log(p.message, p.percent),
-});
-
-const result = await ocr.recognize(file);
-console.log(result.lines.map((l) => l.text).join("\n"));
-ocr.dispose();
-```
-
-不用自己往 `public/` 拷 onnx。
+CSP 需 `'wasm-unsafe-eval'`。示例：`examples/static`、`examples/extension`。
 
 ---
 
-## Vue / React / 纯 JS / 扩展
-
-核心 API 框架无关：
-
-```js
-const ocr = await createWebOcr();
-const result = await ocr.recognize(file);
-```
-
-- Vite/npm：`webocr` + `webocr/vite`
-- **内网无 npm**：拷贝整个 `dist/`，页面 `import "/webocr/browser.js"`
-- **浏览器扩展**：`dist/` → `vendor/webocr/`，CSP 加 `'wasm-unsafe-eval'`，`createWebOcr({ baseUrl: chrome.runtime.getURL("vendor/webocr/") })`
-
-仓库示例：`examples/vue`、`examples/react`、`examples/js`、`examples/static`、`examples/extension`。
-
----
-
-## 默认资源路径
+## 包内资源
 
 | 路径 | 内容 |
 |------|------|
-| `/webocr/assets/...` | 模型与字典 |
-| `/webocr/ort/...` | onnxruntime wasm |
+| `…/browser.js` | 入口 |
+| `…/assets/...` | 模型与字典 |
+| `…/ort/...` | onnxruntime wasm |
 
 ---
 
 ## 运行配置（大概）
 
 - 推荐 Chrome / Edge 新版本（WebGPU 更快）
-- 双核 + 4GB 内存可跑；低配会走 WASM，更慢一些
+- 双核 + 4GB 内存可跑；低配走 WASM 更慢
 - 建议图片宽边 ≤ 2000px
 
 ---
@@ -95,7 +70,7 @@ const result = await ocr.recognize(file);
 
 - 文本框轴对齐外扩，无透视矫正 / 方向分类
 - 复杂版面弱于官方完整流水线
-- 首次加载要拉 wasm + 模型，可被浏览器缓存
+- 首次加载要读 wasm + 模型，可被缓存
 
 ---
 
@@ -103,6 +78,3 @@ const result = await ocr.recognize(file);
 
 - npm：[https://www.npmjs.com/package/webocr](https://www.npmjs.com/package/webocr)
 - GitHub：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
-- 安装：`npm i webocr`
-
-欢迎试用；有问题评论区扔日志一起看。

@@ -1,11 +1,10 @@
 /**
- * 无 npm / 内网静态 / 浏览器扩展入口。
+ * 纯 JS 入口：静态页面 / 浏览器扩展（外网构建，内网分发；运行无外网）。
  *
- * - 把整个 `dist/` 拷到内网静态目录、扩展包或任意可访问路径
- * - `browser.js` 已内联 onnxruntime-web 的 JS；模型与 wasm 仍读同目录 `assets/`、`ort/`
- * - 默认用 `import.meta.url` 解析资源路径，扩展里只要从 `chrome-extension://…/browser.js` 导入即可自动对齐
+ * - 把整个 `dist/` 拷到静态目录或扩展 `vendor/webocr/`
+ * - `browser.js` 已内联 onnxruntime-web 的 JS；模型与 wasm 读同目录 `assets/`、`ort/`
  *
- * @example 内网静态
+ * @example 页面
  * ```html
  * <script type="module">
  *   import { createWebOcr } from "/webocr/browser.js";
@@ -13,7 +12,7 @@
  * </script>
  * ```
  *
- * @example 浏览器扩展（外网构建，内网分发；运行无外网）
+ * @example 浏览器扩展
  * ```js
  * const base = chrome.runtime.getURL("vendor/webocr/");
  * const { createWebOcr } = await import(chrome.runtime.getURL("vendor/webocr/browser.js"));
