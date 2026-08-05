@@ -1,6 +1,6 @@
 {
   "name": "webocr",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Browser-side PP-OCRv6 tiny OCR powered by onnxruntime-web. Bundles models, charset and wasm. Framework-agnostic.",
   "type": "module",
   "main": "./dist/index.js",
@@ -9,11 +9,13 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./vite": {
       "types": "./dist/vite.d.ts",
-      "import": "./dist/vite.js"
+      "import": "./dist/vite.js",
+      "default": "./dist/vite.js"
     },
     "./assets/*": "./dist/assets/*",
     "./ort/*": "./dist/ort/*"
@@ -68,7 +70,9 @@
     "onnxruntime-web",
     "browser",
     "vue",
-    "react"
+    "react",
+    "javascript",
+    "typescript"
   ],
   "license": "Apache-2.0"
 }

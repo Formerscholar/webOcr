@@ -3,7 +3,7 @@
  * Vue 3 调用示例
  *
  * npm i webocr
- * vite.config.ts → plugins: [webocr()]
+ * vite.config.js / .ts → plugins: [webocr()]
  * 模型 / 字典 / wasm 已打在包内，默认走 /webocr/
  */
 import { onMounted, onUnmounted, ref } from "vue";

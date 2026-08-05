@@ -1,7 +1,7 @@
 # webocr
 
 浏览器端 OCR（PP-OCRv6 tiny + `onnxruntime-web`）。  
-**模型、字符集、ORT wasm 已打进包内**，Vue / React / 原生都可调用。
+**模型、字符集、ORT wasm 已打进包内**，Vue / React / 纯 JS 都可调用。
 
 - npm：[https://www.npmjs.com/package/webocr](https://www.npmjs.com/package/webocr)
 - GitHub：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
@@ -14,8 +14,10 @@ npm i webocr
 
 ## Vite 配置
 
-```ts
-// vite.config.ts
+JS 项目用 `vite.config.js`，TS 项目用 `vite.config.ts`，写法相同：
+
+```js
+// vite.config.js 或 vite.config.ts
 import { defineConfig } from "vite";
 import { webocr } from "webocr/vite";
 
@@ -26,6 +28,22 @@ export default defineConfig({
 ```
 
 ## 用法
+
+### 纯 JS
+
+```js
+import { createWebOcr } from "webocr";
+
+const ocr = await createWebOcr({
+  onProgress: (p) => console.log(p.message, p.percent),
+});
+
+const result = await ocr.recognize(file);
+console.log(result.lines.map((l) => l.text).join("\n"));
+ocr.dispose();
+```
+
+### TypeScript
 
 ```ts
 import { createWebOcr } from "webocr";
@@ -39,9 +57,9 @@ console.log(result.lines.map((l) => l.text).join("\n"));
 ocr.dispose();
 ```
 
-## Vue / React
+## Vue / React / 纯 JS
 
-见 `examples/vue`、`examples/react`。
+见 `examples/vue`、`examples/react`、`examples/js`。
 
 ## 包内资源
 

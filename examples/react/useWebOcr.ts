@@ -2,7 +2,7 @@
  * React Hook 示例
  *
  * npm i webocr
- * vite.config.ts → import { webocr } from 'webocr/vite'; plugins: [webocr()]
+ * vite.config.js / vite.config.ts → import { webocr } from 'webocr/vite'; plugins: [webocr()]
  * 模型 / 字典 / wasm 已打在包内，默认走 /webocr/
  */
 import { useEffect, useRef, useState } from "react";

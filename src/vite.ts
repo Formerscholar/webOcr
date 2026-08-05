@@ -111,7 +111,7 @@ function copyDirFiltered(src: string, dest: string, filter?: (name: string) => b
  * Vite 插件：把 npm 包内的模型 / 字典 / wasm 挂到 `/webocr/`。
  *
  * @example
- * ```ts
+ * ```js
  * import { webocr } from 'webocr/vite'
  * export default defineConfig({ plugins: [webocr()] })
  * ```
