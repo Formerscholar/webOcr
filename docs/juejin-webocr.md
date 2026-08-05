@@ -6,7 +6,7 @@
 
 给内部系统加「上传截图 → 自动识字」，以前多半是后端起 PaddleOCR + Flask。部署麻烦，还要扛并发。
 
-这次把百度 **PP-OCRv6 tiny** 检测/识别模型，加上 `onnxruntime-web`，打成一个前端 npm 包：**模型、字典、wasm 都在包里**，Vue / React / 纯 JS 都能用。
+这次把百度 **PP-OCRv6 tiny** 检测/识别模型，加上 `onnxruntime-web`，打成一个前端 npm 包：**模型、字典、wasm 都在包里**，Vue / React / 内网纯 JS / 浏览器扩展都能用。
 
 ---
 
@@ -57,16 +57,20 @@ ocr.dispose();
 
 ---
 
-## Vue / React / 纯 JS
+## Vue / React / 纯 JS / 扩展
 
-核心 API 框架无关，TS / JS 都能直接 `import`：
+核心 API 框架无关：
 
 ```js
 const ocr = await createWebOcr();
 const result = await ocr.recognize(file);
 ```
 
-仓库示例：`examples/vue`、`examples/react`、`examples/js`。
+- Vite/npm：`webocr` + `webocr/vite`
+- **内网无 npm**：拷贝整个 `dist/`，页面 `import "/webocr/browser.js"`
+- **浏览器扩展**：`dist/` → `vendor/webocr/`，CSP 加 `'wasm-unsafe-eval'`，`createWebOcr({ baseUrl: chrome.runtime.getURL("vendor/webocr/") })`
+
+仓库示例：`examples/vue`、`examples/react`、`examples/js`、`examples/static`、`examples/extension`。
 
 ---
 

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>webocr · CDN / 本地 dist</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 40rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      #status {
+        color: #555;
+      }
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>browser.js 调用</h1>
+    <p>可走公网 CDN，或内网/本地 <code>dist/browser.js</code>（推荐内网用相对路径，不依赖外网）。</p>
+    <p id="status">初始化中…</p>
+    <input id="file" type="file" accept="image/*" disabled />
+    <textarea id="text" rows="14" placeholder="识别结果"></textarea>
+
+    <script type="module">
+      // 公网（可选）：
+      // import { createWebOcr } from "https://cdn.jsdelivr.net/npm/webocr@0.1.3/dist/browser.js";
+      //
+      // 内网 / 本地（默认）：npm run build 后用静态服务打开本页
+      import { createWebOcr } from "../../dist/browser.js";
+
+      const statusEl = document.querySelector("#status");
+      const textEl = document.querySelector("#text");
+      const fileEl = document.querySelector("#file");
+      let ocr = null;
+
+      try {
+        ocr = await createWebOcr({
+          onProgress: (p) => {
+            statusEl.textContent = `${p.message} (${p.percent}%)`;
+          },
+        });
+        statusEl.textContent = `就绪 · ${ocr.executionProvider}`;
+        fileEl.disabled = false;
+      } catch (err) {
+        statusEl.textContent =
+          err instanceof Error ? err.message : String(err);
+      }
+
+      fileEl.addEventListener("change", async () => {
+        const file = fileEl.files?.[0];
+        if (!file || !ocr) return;
+        statusEl.textContent = "识别中…";
+        try {
+          const result = await ocr.recognize(file);
+          textEl.value = result.lines.map((l) => l.text).join("\n");
+          statusEl.textContent = `完成 · ${result.lines.length} 行`;
+        } catch (err) {
+          statusEl.textContent =
+            err instanceof Error ? err.message : String(err);
+        }
+      });
+    </script>
+  </body>
+</html>

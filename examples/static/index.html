@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>webocr · 内网纯静态</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 40rem;
+        margin: 2rem auto;
+        padding: 0 1rem;
+      }
+      #status {
+        color: #555;
+      }
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>内网纯 JS（无 npm）</h1>
+    <p>
+      将仓库构建产物 <code>dist/</code> 整目录拷到内网静态服务器（本示例假定挂在
+      <code>/webocr/</code>），无需安装依赖、不访问外网 CDN。
+    </p>
+    <p id="status">初始化中…</p>
+    <input id="file" type="file" accept="image/*" disabled />
+    <textarea id="text" rows="14" placeholder="识别结果"></textarea>
+
+    <script type="module">
+      // 部署时把 dist/ 放到同一站点，例如 /webocr/browser.js
+      // 本地验证：npm run build && npx serve .  然后改成 ../../dist/browser.js
+      import { createWebOcr } from "/webocr/browser.js";
+
+      const statusEl = document.querySelector("#status");
+      const textEl = document.querySelector("#text");
+      const fileEl = document.querySelector("#file");
+      let ocr = null;
+
+      try {
+        ocr = await createWebOcr({
+          onProgress: (p) => {
+            statusEl.textContent = `${p.message} (${p.percent}%)`;
+          },
+        });
+        statusEl.textContent = `就绪 · ${ocr.executionProvider}`;
+        fileEl.disabled = false;
+      } catch (err) {
+        statusEl.textContent =
+          (err instanceof Error ? err.message : String(err)) +
+          " — 若 404，请确认已把 dist/ 挂到 /webocr/，或把 import 改成相对路径 ../../dist/browser.js";
+      }
+
+      fileEl.addEventListener("change", async () => {
+        const file = fileEl.files?.[0];
+        if (!file || !ocr) return;
+        statusEl.textContent = "识别中…";
+        try {
+          const result = await ocr.recognize(file);
+          textEl.value = result.lines.map((l) => l.text).join("\n");
+          statusEl.textContent = `完成 · ${result.lines.length} 行`;
+        } catch (err) {
+          statusEl.textContent =
+            err instanceof Error ? err.message : String(err);
+        }
+      });
+    </script>
+  </body>
+</html>

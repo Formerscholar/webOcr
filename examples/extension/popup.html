@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebOCR</title>
+    <style>
+      body {
+        width: 320px;
+        font-family: system-ui, sans-serif;
+        margin: 12px;
+      }
+      #status {
+        color: #555;
+        font-size: 12px;
+      }
+      textarea {
+        width: 100%;
+        box-sizing: border-box;
+        height: 160px;
+      }
+    </style>
+  </head>
+  <body>
+    <strong>WebOCR 扩展</strong>
+    <p id="status">初始化中…</p>
+    <input id="file" type="file" accept="image/*" disabled />
+    <textarea id="text" readonly placeholder="识别结果"></textarea>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

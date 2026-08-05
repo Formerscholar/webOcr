@@ -11,6 +11,9 @@ demo-dist/
 dist/webocr/
 *.js.map
 
+# 扩展示例里复制的产物（请自行 npm run build 后拷入）
+examples/extension/vendor/
+
 # public 下模型与 assets/dist 重复，只保留示例图
 public/models/
 public/ppocr_keys_v6_tiny.json

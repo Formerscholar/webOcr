@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "webocr Extension Demo",
+  "version": "0.1.0",
+  "description": "离线 OCR 扩展示例：vendor/webocr 来自构建产物 dist/",
+  "action": {
+    "default_title": "WebOCR",
+    "default_popup": "popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["vendor/webocr/*", "vendor/webocr/assets/*", "vendor/webocr/assets/models/*", "vendor/webocr/ort/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
