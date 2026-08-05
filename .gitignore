@@ -8,6 +8,7 @@ agent-tools/
 
 # 本地 demo 构建缓存；库产物 dist/ 会提交以便 GitHub 安装即用
 demo-dist/
+dist/webocr/
 *.js.map
 
 # public 下模型与 assets/dist 重复，只保留示例图

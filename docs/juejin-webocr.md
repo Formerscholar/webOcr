@@ -1,11 +1,12 @@
-# 纯前端 OCR 也能一键接入：webocr（PP-OCRv6 tiny）开源了
+# 纯前端 OCR 也能 npm 一键用：webocr（PP-OCRv6 tiny）发布了
 
-> 仓库：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)  
-> 安装：`npm i github:Formerscholar/webOcr`
+> 包地址：[https://www.npmjs.com/package/webocr](https://www.npmjs.com/package/webocr)  
+> 安装：`npm i webocr`  
+> 仓库：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
 
 给内部系统加「上传截图 → 自动识字」，以前多半是后端起 PaddleOCR + Flask。部署麻烦，还要扛并发。
 
-这次把百度 **PP-OCRv6 tiny** 检测/识别模型，加上 `onnxruntime-web`，做成一个前端包：**模型、字典、wasm 都在仓库里**，Vue / React / 原生都能用。
+这次把百度 **PP-OCRv6 tiny** 检测/识别模型，加上 `onnxruntime-web`，打成一个前端 npm 包：**模型、字典、wasm 都在包里**，Vue / React / 原生都能用。
 
 ---
 
@@ -13,7 +14,7 @@
 
 - 不想单独养 Python OCR 服务
 - 图片不想上传服务器（浏览器本地推理）
-- 希望业务项目装完就能接，少折腾资源路径
+- 希望业务项目 `npm i` 就能接，少折腾资源路径
 
 技术栈：
 
@@ -26,7 +27,7 @@
 ## 安装与接入（Vite）
 
 ```bash
-npm i github:Formerscholar/webOcr
+npm i webocr
 ```
 
 ```ts
@@ -58,14 +59,14 @@ ocr.dispose();
 
 ## Vue / React
 
-核心 API 框架无关。Vue 里 `onMounted` 初始化，React 里放进 hook 即可：
+核心 API 框架无关：
 
 ```ts
 const ocr = await createWebOcr();
 const result = await ocr.recognize(file);
 ```
 
-仓库里有更完整示例：`examples/vue`、`examples/react`。
+仓库示例：`examples/vue`、`examples/react`。
 
 ---
 
@@ -96,7 +97,8 @@ const result = await ocr.recognize(file);
 
 ## 链接
 
+- npm：[https://www.npmjs.com/package/webocr](https://www.npmjs.com/package/webocr)
 - GitHub：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
-- 安装：`npm i github:Formerscholar/webOcr`
+- 安装：`npm i webocr`
 
-欢迎 star / issue；有问题评论区扔日志一起看。
+欢迎试用；有问题评论区扔日志一起看。

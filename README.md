@@ -3,20 +3,13 @@
 浏览器端 OCR（PP-OCRv6 tiny + `onnxruntime-web`）。  
 **模型、字符集、ORT wasm 已打进包内**，Vue / React / 原生都可调用。
 
-仓库：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
+- npm：[https://www.npmjs.com/package/webocr](https://www.npmjs.com/package/webocr)
+- GitHub：[https://github.com/Formerscholar/webOcr](https://github.com/Formerscholar/webOcr)
 
-## 安装（GitHub，当前推荐）
-
-npm 官方包因账号 2FA 限制暂未发布，请直接从 GitHub 安装：
-
-```bash
-npm i github:Formerscholar/webOcr
-```
-
-或：
+## 安装
 
 ```bash
-npm i git+https://github.com/Formerscholar/webOcr.git
+npm i webocr
 ```
 
 ## Vite 配置
@@ -56,7 +49,7 @@ ocr.dispose();
 |------|------|
 | `/webocr/assets/models/*.onnx` | 检测 + 识别模型（约 6MB） |
 | `/webocr/assets/ppocr_keys_v6_tiny.json` | 字符集 |
-| `/webocr/ort/*` | onnxruntime wasm（精简必需文件） |
+| `/webocr/ort/*` | onnxruntime wasm |
 
 ## 本地开发
 
