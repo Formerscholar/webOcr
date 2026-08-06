@@ -5,7 +5,7 @@ node_modules/
 .npmrc
 agent-tools/
 *.tgz
-
+key
 # 本地 demo 构建缓存；库产物 dist/ 会提交以便 GitHub 安装即用
 demo-dist/
 dist/webocr/

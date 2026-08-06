@@ -1,7 +1,7 @@
 {
   "name": "webocr",
-  "version": "0.1.4",
-  "description": "Browser-side PP-OCRv6 tiny OCR for plain JavaScript: static pages and browser extensions. Bundles models, charset and wasm.",
+  "version": "0.1.5",
+  "description": "Browser-side PP-OCRv6 tiny OCR. Plain JS, browser extensions, Vue 2/3, React hooks & class. Bundles models, charset and wasm.",
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -78,6 +78,11 @@
     "onnxruntime-web",
     "browser",
     "javascript",
+    "vue",
+    "vue2",
+    "vue3",
+    "react",
+    "hooks",
     "browser-extension",
     "chrome-extension"
   ],

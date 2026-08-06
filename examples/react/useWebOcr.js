@@ -1,19 +1,18 @@
 /**
- * React Hook 示例
+ * React Hook
  *
  * npm i webocr
- * vite.config.js / vite.config.ts → import { webocr } from 'webocr/vite'; plugins: [webocr()]
- * 模型 / 字典 / wasm 已打在包内，默认走 /webocr/
+ * vite.config → plugins: [webocr()]
  */
 import { useEffect, useRef, useState } from "react";
-import { createWebOcr, type OcrProgress, type OcrResult, type WebOcr } from "webocr";
+import { createWebOcr } from "webocr";
 
 export function useWebOcr() {
-  const ocrRef = useRef<WebOcr | null>(null);
+  const ocrRef = useRef(null);
   const [ready, setReady] = useState(false);
   const [provider, setProvider] = useState("");
-  const [progress, setProgress] = useState<OcrProgress | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -45,7 +44,7 @@ export function useWebOcr() {
     };
   }, []);
 
-  async function recognize(input: File | Blob): Promise<OcrResult> {
+  async function recognize(input) {
     if (!ocrRef.current) throw new Error("OCR 未就绪");
     return ocrRef.current.recognize(input);
   }

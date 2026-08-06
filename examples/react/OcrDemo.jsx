@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useWebOcr } from "./useWebOcr";
+import { useWebOcr } from "./useWebOcr.js";
 
+/** React 函数组件 + Hook */
 export function OcrDemo() {
   const { ready, provider, progress, error, recognize } = useWebOcr();
   const [text, setText] = useState("");
